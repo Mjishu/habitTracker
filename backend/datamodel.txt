@@ -1,0 +1,104 @@
+users:
+      id
+      Username
+      Email
+      Password
+      image_src
+      max_hp
+      current_hp
+      base_attack_damage
+      xp
+      gold
+      created_at
+      updated_at
+quests:
+      id
+      name
+      description
+quest_rewards:
+      id
+      quest_id
+      reward
+quests_logs:
+      id
+      quest_id
+      user_id
+      created_at
+      completed_at
+items:
+      id
+      name
+      value
+      description
+      image_src
+item_effects:
+      id
+      item_id
+      effect_type
+      effect_value
+
+user_items:
+      id
+      user_id
+      item_id
+      quantity
+      aquired_at
+enemies:
+      id
+      name
+      max_hp
+      attack
+      defense
+      xp_reward
+      gold_reward
+      description
+      type(normal, elite, boss)
+enemy_rewards:
+      id
+      enemy_id
+      item_id
+user_enemy_encounters:
+      id
+      user_id
+      enemy_id
+      current_hp
+      encounter_started_at
+      encounter_status(active, fled, defeated)
+habits:
+      id
+      user_id
+      name
+      description
+      habit_type
+      difficulty
+      created_at
+      updated_at
+      effects_stat(ML to find this one out)
+habits_logs:
+      id
+      habit_id
+      user_id
+      performed_at
+      effect
+      notes
+      mood
+combat_logs:
+      id
+      enemy_id
+      user_id
+      action(attack, fee, use_item)
+      damage_dealt
+      damage_taken
+      hp_after_action
+      created_at
+achievements:
+      id
+      name
+      description
+      reward_type
+      reward_value
+user_achievments:
+      id
+      user_id
+      achievement_id
+      achieved_at
