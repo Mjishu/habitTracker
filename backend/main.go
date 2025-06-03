@@ -22,7 +22,15 @@ func main() {
 		fmt.Printf("could not load .env, %s", err)
 	}
 
+	jwt_secret := "ya momma"
+
+	config := apiConfig{
+		jwt_secret: jwt_secret,
+	}
+	
+
 	mux.HandleFunc("GET /users/{userID}", func(w http.ResponseWriter, r *http.Request) {
+		config.UserById(w, r)
 		fmt.Println("called user for specific id")
 	})
 
