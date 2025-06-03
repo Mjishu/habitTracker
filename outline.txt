@@ -1,0 +1,42 @@
+Description:
+      An app that allows you to log habits and reminds you on a daily basis to complete these habits, you will level up your 
+      character the more you do certain tasks.
+
+User Profile:
+      -Username
+      -Email
+      -Password
+      -PFP
+      -Stats
+            - Stamina
+            - Intelligence
+            - Strength
+            - Fortitude
+      - Items
+
+Intricases:
+      - Could use ML to determine whether a habit is of each category
+
+Story of game:
+      You are a hero who has decided to defeat the enemies of all enemies! the mighty emperor *tishtal*, tishtal
+      wishes for all of it's subjects to sit back and do nothing all day and waste away their time and with this tishtal
+      will suck their energy and grow his strength! You hero have decided to fight this evil by building habits and 
+      fulfilling your day, The more you level up the closer you get to cleansing this land of the evil known as tishtal.
+
+      Quest 1: Create a new daily habit 
+      Reward: Depending on the habit(using ML) either [wand, rusty sword, bow, daggers]
+
+      Quest 2: Tishtal's forces smelled your new habit! Defeat them with your new weapon by completing this habit!
+      Reward: 5xp, healing potion 
+
+Beginner Items:
+      Creaky Wand
+            distant damage += 5
+      Rusty Sword
+            physical damage += 5
+      Loose bow
+            distant damage += 5
+      Broken Daggers
+            physical damage += 3
+            dodge += 3
+      
