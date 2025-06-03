@@ -1,16 +1,20 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
 
 type apiConfig struct {
 	jwt_secret string;
+	context context.Context;
+	pool *pgxpool.Pool
 }
 
 func main() {
@@ -22,11 +26,13 @@ func main() {
 		fmt.Printf("could not load .env, %s", err)
 	}
 
-	jwt_secret := "ya momma"
+	jwt_secret := "ya momma" //update this store jwt_secret in .env
 
-	config := apiConfig{
+	config := apiConfig{ // might need to add empty context and empty pool here
 		jwt_secret: jwt_secret,
 	}
+
+	config.CreateConnection()
 	
 
 	mux.HandleFunc("GET /users/{userID}", func(w http.ResponseWriter, r *http.Request) {

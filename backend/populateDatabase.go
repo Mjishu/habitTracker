@@ -1,11 +1,24 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	uuid "github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+func (conf apiConfig) CreateConnection() {
+	ctx := context.Background()
+	dbpool, err := pgxpool.New(ctx,  GetItemFromEnv("DATABASE_URL"))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "unable to connect to pool err: %s", err)
+		os.Exit(1)
+	}
+	conf.context = ctx
+	conf.pool = dbpool
+}
 
 type User struct {
 	Id uuid.UUID
@@ -40,7 +53,7 @@ func (conf apiConfig) CreateUserTable() {
 		)
 	`
 
-	_,err := conf.pool.Exec(conf.ctx, sql)
+	_,err := conf.pool.Exec(conf.context, sql)
 	queryFail(err, "User")
 }
 
