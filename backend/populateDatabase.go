@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -39,7 +40,7 @@ func (conf apiConfig) CreateConnection() {
 	
 }
 
-func CreateTables(conf apiConfig) {
+func CreateSchemas(conf apiConfig) {
 	conf.CreateUserTable()
 	conf.CreateQuestTable()
 	conf.CreateQuestRewardsTable()
@@ -56,6 +57,10 @@ func CreateTables(conf apiConfig) {
 	conf.CreateAchievementsTable()
 	conf.CreateUserAchievementsTable()
 }
+
+//* ----------------------------
+// *		SCHEMAS
+// * ---------------------------
 
 
 func (conf apiConfig) CreateUserTable() {
@@ -301,6 +306,31 @@ func (conf apiConfig) CreateUserAchievementsTable() {
 	queryFail(err, "user_achievements")
 }
 
+//* ----------------------------
+// *		POPULATE
+// * ---------------------------
+
+func (conf apiConfig) PopulateTables() {
+	PopulateQuests(conf.db)
+}
+
+func PopulateQuests(db *sql.DB) {
+	content,err := os.ReadFile("./data/quests.json")
+	if err != nil {
+		fmt.Println("Error when trying to open file for quests: ", err)
+		os.Exit(1)
+	}
+	var payload map[string]Quest
+	err = json.Unmarshal(content, &payload)
+	if err != nil {
+		fmt.Println("Error trying to unmarshal content: ", err)
+		os.Exit(1)
+	}
+
+	for _, quest := range payload {
+		fmt.Printf("%s: %s \n", quest.Name, quest.Description)
+	}
+}
 
 func queryFail(err error, tableName string) {
 	if err != nil {

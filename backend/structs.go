@@ -18,7 +18,7 @@ type User struct {
 }
 
 type Quest struct {
-	Id          uuid.UUID
+	Id          string  // change to uuid.UUID? 
 	Name        string
 	Description string
 }

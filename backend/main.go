@@ -34,7 +34,8 @@ func main() {
 		jwt_secret: jwt_secret,
 	}
 
-	config.CreateConnection()
+	// config.CreateConnection()
+	config.PopulateTables()
 	
 
 	mux.HandleFunc("GET /users/{userID}", func(w http.ResponseWriter, r *http.Request) {
