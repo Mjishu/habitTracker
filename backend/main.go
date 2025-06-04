@@ -2,19 +2,21 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+	"github.com/tursodatabase/go-libsql"
 )
 
 type apiConfig struct {
 	jwt_secret string;
 	context context.Context;
-	pool *pgxpool.Pool
+	connector *libsql.Connector
+	db *sql.DB
 }
 
 func main() {

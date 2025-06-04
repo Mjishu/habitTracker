@@ -28,9 +28,12 @@ quests_logs:
 items:
       id
       name
+      type
       value
       description
       image_src
+      created_at
+      updated_at
 item_effects:
       id
       item_id
