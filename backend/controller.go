@@ -11,7 +11,9 @@ import (
 
 
 
-func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, tableName string, values []string) {
+func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, tableName string, values []string, itemType interface{}) {
+	item := itemType
+	checkBody(w, r, &item)
 
 
 	// Example SQL insert statement

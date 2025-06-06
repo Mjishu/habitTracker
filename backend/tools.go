@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -59,4 +60,25 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	}
 	w.WriteHeader(code)
 	w.Write(dat)
+}
+
+//* ------------------
+//*	POST DATA
+//* ------------------
+
+
+func checkBody(w http.ResponseWriter, r *http.Request, user interface{}) error {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "unable to read body", http.StatusInternalServerError)
+		return nil
+	}
+	defer r.Body.Close()
+
+	err = json.Unmarshal(body, user)
+	if err != nil {
+		http.Error(w, "unable to unmarshal json", http.StatusInternalServerError)
+		return err
+	}
+	return nil
 }
