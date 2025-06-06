@@ -13,7 +13,10 @@ import (
 
 func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, tableName string, values []string, itemType interface{}) {
 	item := itemType
-	checkBody(w, r, &item)
+	err := checkBody(w, r, &item)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "could not find item info", err)
+	}
 
 
 	// Example SQL insert statement
@@ -29,9 +32,9 @@ func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, t
 		}
 		placeholders += "?"
 	}
-
+	// todo iterate over each entry in item and do that in the Exec
 	// Example: execute the SQL statement (assuming you have a db object)
-	_, err := conf.db.Exec(sql, tableName,placeholders, username, email, password)
+	_, err = conf.db.Exec(sql, tableName,placeholders, username, email, password)
 	if err != nil {
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return
