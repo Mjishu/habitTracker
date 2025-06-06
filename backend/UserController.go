@@ -16,15 +16,14 @@ func (conf apiConfig) UserById(w http.ResponseWriter, r *http.Request) {
 	`
 	row := conf.db.QueryRow(sql, userId)
 
-	var id int
-	var username, email string
-	err := row.Scan(&id, &username, &email)
+	var userInfo User
+	err := row.Scan(&userInfo)
 	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
 
-	fmt.Fprintf(w, "User: ID=%d, Username=%s, Email=%s", id, username, email)
+	fmt.Fprintf(w, "User: ID=%d, Username=%s, Email=%s", userInfo.Id, userInfo.Username, userInfo.Email)
 }
 
 func (conf apiConfig) CreateUser(w http.ResponseWriter, r *http.Request) {
