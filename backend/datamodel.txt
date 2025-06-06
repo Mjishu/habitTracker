@@ -60,6 +60,7 @@ enemy_rewards:
       id
       enemy_id
       item_id
+      amount
 user_enemy_encounters:
       id
       user_id

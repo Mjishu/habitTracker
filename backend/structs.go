@@ -26,7 +26,8 @@ type Quest struct {
 type QuestReward struct {
 	Id      uuid.UUID
 	QuestId uuid.UUID
-	Reward  string
+	ItemId  uuid.UUID
+	Amount float32
 }
 
 type QuestLog struct {
@@ -79,6 +80,7 @@ type EnemyReward struct {
 	Id      int64
 	EnemyId uuid.UUID
 	ItemId  int64
+	Amount float32
 }
 
 type UserEnemyEncounter struct {

@@ -101,8 +101,10 @@ func (conf apiConfig) CreateQuestRewardsTable() {
 		CREATE TABLE IF NOT EXISTS quest_rewards (
 			id TEXT PRIMARY KEY,
 			quest_id TEXT NOT NULL,
-			reward TEXT NOT NULL,
-			FOREIGN KEY (quest_id) REFERENCES quests(id)
+			item_id TEXT NOT NULL,
+			amount FLOAT NOT NULL,
+			FOREIGN KEY (quest_id) REFERENCES quests(id),
+			FOREIGN KEY (item_id) REFERENCES items(id)
 		);
 	`
 	_, err := conf.db.Exec(sql)
@@ -196,6 +198,7 @@ func (conf apiConfig) CreateEnemyRewardsTable() {
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			enemy_id TEXT NOT NULL,
 			item_id INTEGER NOT NULL,
+			amount FLOAT NOT NULL,
 			FOREIGN KEY (enemy_id) REFERENCES enemies(id),
 			FOREIGN KEY (item_id) REFERENCES items(id)
 		);
