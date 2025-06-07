@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"reflect"
 )
 
 //** --------------------------
@@ -19,7 +20,6 @@ func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, t
 	}
 
 
-	// Example SQL insert statement
 	sql := `
 		INSERT INTO ? (?)
 		VALUES (?, ?, ?)
@@ -33,8 +33,25 @@ func (conf apiConfig) CreateController(w http.ResponseWriter, r *http.Request, t
 		placeholders += "?"
 	}
 	// todo iterate over each entry in item and do that in the Exec
-	// Example: execute the SQL statement (assuming you have a db object)
-	_, err = conf.db.Exec(sql, tableName,placeholders, username, email, password)
+
+	// Build the arguments slice: first tableName, then placeholders, then the values from item
+	args := []interface{}{tableName, placeholders}
+	for _, v := range values {
+		// Use reflection to get the value from item by field name
+		val := reflect.ValueOf(item)
+		// If item is a pointer, get the element
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		field := val.FieldByName(v)
+		if field.IsValid() {
+			args = append(args, field.Interface())
+		} else {
+			args = append(args, nil)
+		}
+	}
+
+	_, err = conf.db.Exec(sql, args...)
 	if err != nil {
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return
@@ -61,6 +78,19 @@ func (conf apiConfig) DeleteController(w http.ResponseWriter, r *http.Request, t
 
 	fmt.Fprintf(w, "row deleted successfully")
 	respondWithJSON(w, 200, "successful")
+}
+
+func (conf apiConfig) FindItemController(w http.ResponseWriter, r *http.Request, tableName string, id string, itemType interface{}) (interface{}, error){
+	sql := `SELECT * FROM ? WHERE id = ?`
+	item := itemType
+
+	row := conf.db.QueryRow(sql, tableName, id)
+	err := row.Scan(&item)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "could not scan item", err)
+		return item, err
+	} 
+	return item, nil
 }
 
 //** --------------------------
