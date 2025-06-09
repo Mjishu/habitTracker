@@ -3,7 +3,7 @@ import React from "react";
 
 const CurrentHabits = () => {
   return (
-    <View>
+    <View className="">
       <Text>CurrentHabits</Text>
     </View>
   );
