@@ -1,12 +1,17 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { Text, View } from "react-native";
+import HabitCreate from "../components/HabitCreate";
 
-const habits = () => {
+export default function Habits() {
   return (
-    <View>
-      <Text>habits</Text>
+    <View
+      className="flex-1 bg-primary"
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <HabitCreate />
     </View>
   );
-};
-
-export default habits;
+}
